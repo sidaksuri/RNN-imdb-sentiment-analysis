@@ -6,11 +6,10 @@ from tensorflow.keras.datasets import imdb
 from tensorflow.keras.preprocessing import sequence
 from tensorflow.keras.models import load_model
 
-# ---------------- PAGE CONFIG ---------------- #
+# PAGE CONFIG 
 
 st.set_page_config(page_title="IMDB Sentiment AI", page_icon="🎬")
 
-# ---------------- CSS ---------------- #
 
 st.markdown("""
 <style>
@@ -52,7 +51,7 @@ background:#7f1d1d;
 </style>
 """, unsafe_allow_html=True)
 
-# ---------------- MODEL SETTINGS ---------------- #
+#  MODEL SETTINGS
 
 max_features = 10000
 max_len = 500
@@ -60,7 +59,7 @@ max_len = 500
 # Load IMDB word index
 word_index = imdb.get_word_index()
 
-# ---------------- LOAD MODEL (CACHED) ---------------- #
+#  LOAD MODEL (CACHED) 
 
 @st.cache_resource
 def load_my_model():
@@ -68,7 +67,7 @@ def load_my_model():
 
 model = load_my_model()
 
-# ---------------- PREPROCESS FUNCTION ---------------- #
+# PREPROCESS FUNCTION 
 
 def preprocess_text(text):
 
@@ -106,18 +105,17 @@ def preprocess_text(text):
     return padded_review
 
 
-# ---------------- TITLE ---------------- #
+# TITLE 
 
 st.markdown("<div class='title'>🎬 IMDB Movie Review Sentiment AI</div>", unsafe_allow_html=True)
 st.markdown("<div class='subtitle'>Enter a movie review and AI will classify it.</div>", unsafe_allow_html=True)
 
-# ---------------- SESSION STATE ---------------- #
+# SESSION STATE 
 
 if "review_text" not in st.session_state:
     st.session_state.review_text = ""
 
-# ---------------- EXAMPLE BUTTONS ---------------- #
-
+# EXAMPLE BUTTONS 
 st.subheader("Try Example Reviews")
 
 col1, col2, col3 = st.columns(3)
@@ -131,7 +129,7 @@ if col2.button("😞 Negative Example"):
 if col3.button("🤔 Mixed Example"):
     st.session_state.review_text = "The movie started great but the ending was terrible"
 
-# ---------------- TEXT AREA ---------------- #
+#  TEXT AREA
 
 st.session_state.review_text = st.text_area(
     "Movie Review",
@@ -139,7 +137,7 @@ st.session_state.review_text = st.text_area(
     height=150
 )
 
-# ---------------- PREDICTION ---------------- #
+#  PREDICTION
 
 if st.button("🚀 Classify Sentiment"):
 
@@ -158,7 +156,7 @@ if st.button("🚀 Classify Sentiment"):
 
         sentiment = "Positive 😊" if score > 0.5 else "Negative 😞"
 
-        # ---------------- RESULT ---------------- #
+        # RESULT 
 
         st.subheader("Result")
 
@@ -175,7 +173,7 @@ if st.button("🚀 Classify Sentiment"):
 
         st.write(f"Prediction Score: **{score:.4f}**")
 
-        # ---------------- CONFIDENCE ---------------- #
+        #  CONFIDENCE 
 
         positive_prob = score
         negative_prob = 1 - score
